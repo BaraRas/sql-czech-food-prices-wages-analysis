@@ -29,7 +29,7 @@ WITH base AS (
 		ON cpr.category_code = cpc.code
 	WHERE cp.calculation_code = 200 				-- 200 calculation_code--> přepočtěný = tj. ukazuje mzdu vztaženou na 1 celý pracovní úvazek – tzv. FTE (Full-Time Equivalent) =  tedy zaměstnanci přepočítaní na plný úvazek					
 		AND cp.value_type_code = 5958
-		AND cpr.category_code != '212101'			-- nezahrnutí hodnot pro Jakostní víno bílé	
+		AND cpr.category_code != 212101			-- nezahrnutí hodnot pro Jakostní víno bílé	
 		),	
 -- přepočet na jednotné porovnatelné data
 category_units AS (
@@ -105,7 +105,7 @@ SELECT
 	cu.category_code,
 	cu.category_name,
 	cu.value_price_corrected AS value_price,
-	cu.quantity_corrected AS quantity ,
+	cu.quantity_corrected AS quantity,
 	cu.price_unit_corrected AS price_unit,
 	avg_price_category.avg_annual_price_category,
 	avg_price_total.avg_annual_price_total
@@ -118,8 +118,8 @@ LEFT JOIN avg_price_total
 LEFT JOIN avg_payroll
 	ON avg_payroll.payroll_year = cu.payroll_year 
 WHERE cu.payroll_year IN (
-  SELECT DISTINCT date_part('year', date_from)
-  FROM czechia_price
+	SELECT DISTINCT date_part('year', date_from)
+	FROM czechia_price
 )
 
 
